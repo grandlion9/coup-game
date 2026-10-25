@@ -1,24 +1,46 @@
 <!doctype html>
-<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>COUP Classroom · 3D Table Edition — Mobile Clear View</title>
-<style>body{background:#3b3036;color:#fff3dc;font-family:Tahoma,sans-serif;min-height:100vh;display:grid;place-items:center;margin:0}main{text-align:center;max-width:520px;padding:32px}h1{font-size:26px}p{line-height:1.7}button{padding:10px 20px;border-radius:10px;border:0;cursor:pointer}</style></head>
-<body><main><h1>COUP Classroom · Mobile Clear View</h1><p id="status">กำลังโหลดเกม 3D…</p><button id="retry" style="display:none" onclick="location.reload()">ลองอีกครั้ง</button></main>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#201e2b">
+<title>COUP Classroom · 3D VS AI — RulesFix</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#241f2e;color:#ffe5b8;font-family:Tahoma,"Noto Sans Thai",sans-serif}
+body{min-height:100vh;display:grid;place-items:center;padding:24px}
+main{max-width:560px;text-align:center;padding:32px 20px;border:1px solid #cda56b70;border-radius:18px;background:#2e2936}
+h1{font-size:clamp(20px,5vw,28px);margin:0 0 14px}p{line-height:1.65;color:#f0d5b0}
+button{border:1px solid #deb679;border-radius:10px;background:#61432f;color:#fff4df;padding:11px 18px;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+<h1>COUP Classroom · 3D VS AI</h1>
+<p id="status" role="status">กำลังโหลดเกม 3D โปรดรอสักครู่…</p>
+<button id="retry" hidden onclick="location.reload()">ลองโหลดอีกครั้ง</button>
+</main>
 <script>
-(async function(){
- try {
-  const paths=Array.from({length:22},(_,i)=>'./coup3d-mobile-clear-view-20261025/part-'+String(i).padStart(3,'0')+'.txt');
-  const parts=await Promise.all(paths.map(async url=>{
-   const response=await fetch(url,{cache:'default'});
-   if(!response.ok)throw new Error('โหลดไฟล์ไม่สำเร็จ: '+url+' ('+response.status+')');
-   return response.text();
-  }));
-  const html=parts.join('');
-  if(html.length!==16248023||!html.startsWith('<!DOCTYPE html>')||!html.trimEnd().endsWith('</body></html>'))throw new Error('ข้อมูลเกมไม่ครบ');
-  document.open();document.write(html);document.close();
- }catch(error){
-  const status=document.getElementById('status');if(status)status.textContent='ไม่สามารถโหลดเกมได้: '+error.message;
-  const button=document.getElementById('retry');if(button)button.style.display='inline-block';
-  console.error('COUP 3D loader',error);
- }
+(async function () {
+  try {
+    const dir = './coup3d-rulesfix-20261025/';
+    const paths = Array.from({length:22},(_,i)=>dir+'part-'+String(i).padStart(3,'0')+'.txt');
+    const parts = await Promise.all(paths.map(async path=>{
+      const response = await fetch(path);
+      if (!response.ok) throw new Error('โหลดส่วนข้อมูลเกมไม่สำเร็จ ('+response.status+'): '+path);
+      return response.text();
+    }));
+    const html = parts.join('');
+    if (html.length !== 16254666 || !html.startsWith('<!DOCTYPE html>') || !html.trimEnd().endsWith('</body></html>')) {
+      throw new Error('ส่วนข้อมูลเกมไม่ครบหรือไม่ตรงกับเวอร์ชัน RulesFix');
+    }
+    document.open();
+    document.write(html);
+    document.close();
+  } catch (error) {
+    document.getElementById('status').textContent='ไม่สามารถโหลดเกมได้: '+error.message;
+    document.getElementById('retry').hidden=false;
+  }
 })();
-</script></body></html>
+</script>
+</body>
+</html>
