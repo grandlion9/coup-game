@@ -2,11 +2,11 @@
 <html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>COUP Classroom · 3D Table Edition — Mobile Clear View</title>
 <style>body{background:#3b3036;color:#fff3dc;font-family:Tahoma,sans-serif;min-height:100vh;display:grid;place-items:center;margin:0}main{text-align:center;max-width:520px;padding:32px}h1{font-size:26px}p{line-height:1.7}button{padding:10px 20px;border-radius:10px;border:0;cursor:pointer}</style></head>
-<body><main><h1>COUP Classroom · 3D Table Edition</h1><p id="status">กำลังโหลดเกม 3D…</p><button id="retry" style="display:none" onclick="location.reload()">ลองอีกครั้ง</button></main>
+<body><main><h1>COUP Classroom · Mobile Clear View</h1><p id="status">กำลังโหลดเกม 3D…</p><button id="retry" style="display:none" onclick="location.reload()">ลองอีกครั้ง</button></main>
 <script>
 (async function(){
  try {
-  const paths=Array.from({length:21},(_,i)=>'./coup3d-mobileclearview-20261025/part-'+String(i).padStart(3,'0')+'.txt');
+  const paths=Array.from({length:22},(_,i)=>'./coup3d-mobile-clear-view-20261025/part-'+String(i).padStart(3,'0')+'.txt');
   const parts=await Promise.all(paths.map(async url=>{
    const response=await fetch(url,{cache:'default'});
    if(!response.ok)throw new Error('โหลดไฟล์ไม่สำเร็จ: '+url+' ('+response.status+')');
@@ -14,11 +14,9 @@
   }));
   const html=parts.join('');
   if(html.length!==16248023||!html.startsWith('<!DOCTYPE html>')||!html.trimEnd().endsWith('</body></html>'))throw new Error('ข้อมูลเกมไม่ครบ');
-  document.open();
-  document.write(html);
-  document.close();
+  document.open();document.write(html);document.close();
  }catch(error){
-  const status=document.getElementById('status'); if(status)status.textContent='ไม่สามารถโหลดเกมได้: '+error.message;
+  const status=document.getElementById('status');if(status)status.textContent='ไม่สามารถโหลดเกมได้: '+error.message;
   const button=document.getElementById('retry');if(button)button.style.display='inline-block';
   console.error('COUP 3D loader',error);
  }
